@@ -1,0 +1,12 @@
+name = "citaex-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "development"
+
+# Production environment
+[env.production]
+name = "citaex-api-production"
+vars = { ENVIRONMENT = "production" }

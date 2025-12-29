@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "build": "tsc",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.1",
+    "@repo/ai": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "hono": "^4.7.11",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250110.0",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.10.5",
+    "typescript": "5.9.2",
+    "wrangler": "^3.101.0"
+  }
+}
