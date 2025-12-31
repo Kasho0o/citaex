@@ -4,10 +4,12 @@ interface BlogPostLayoutProps {
   title: string;
   description: string;
   date: string;
+  readTime?: string;
+  category?: string;
   children: React.ReactNode;
 }
 
-export default function BlogPostLayout({ title, description, date, children }: BlogPostLayoutProps) {
+export function BlogPostLayout({ title, description, date, readTime, category, children }: BlogPostLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 py-12">
@@ -19,7 +21,11 @@ export default function BlogPostLayout({ title, description, date, children }: B
           <header className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
             <p className="text-gray-600 mb-2">{description}</p>
-            <time className="text-sm text-gray-500">{date}</time>
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <time>{date}</time>
+              {readTime && <span>• {readTime}</span>}
+              {category && <span>• {category}</span>}
+            </div>
           </header>
           
           <div className="prose prose-lg max-w-none">
@@ -40,3 +46,5 @@ export default function BlogPostLayout({ title, description, date, children }: B
     </div>
   );
 }
+
+export default BlogPostLayout;
