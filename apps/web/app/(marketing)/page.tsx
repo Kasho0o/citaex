@@ -29,6 +29,31 @@ export default function HomePage() {
               de extranjería en España
             </p>
 
+            {/* Payment Trust Badge - NEW */}
+            <div className="mb-8 inline-flex items-center gap-3 rounded-2xl border-2 border-green-600 bg-green-50 px-6 py-4 shadow-lg">
+              <svg
+                className="h-8 w-8 flex-shrink-0 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <div className="text-left">
+                <p className="text-lg font-bold text-green-900 sm:text-xl">
+                  Sin pago por adelantado
+                </p>
+                <p className="text-sm font-medium text-green-800 sm:text-base">
+                  Pague después de verificar su cita
+                </p>
+              </div>
+            </div>
+
             {/* CTA Button */}
             <div className="flex flex-col items-center justify-center gap-4">
               <a
