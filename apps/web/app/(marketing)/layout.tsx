@@ -22,7 +22,8 @@ export default function MarketingLayout({
                 alt="MiCitaExtranjería"
                 width={180}
                 height={50}
-                className="h-12 w-auto max-w-[180px] object-contain"
+                className="object-contain"
+                style={{ height: '50px', width: 'auto', maxWidth: '180px' }}
                 priority
               />
             </a>
