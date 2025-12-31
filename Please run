@@ -1,0 +1,2 @@
+cd ~/projects/citaex/apps/web
+pnpm build
