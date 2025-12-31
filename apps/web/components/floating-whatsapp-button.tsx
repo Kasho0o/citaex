@@ -6,7 +6,6 @@ export function FloatingWhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show button after a short delay
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 1000);
