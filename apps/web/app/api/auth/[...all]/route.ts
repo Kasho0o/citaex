@@ -1,1 +1,3 @@
-BETTER_AUTH_SECRET=citaex-secret-key-2025-very-long-random-string-here-32chars-minimum-length-required
+rm apps/web/app/api/auth/[...all]/route.ts
+# Or delete the entire api directory if it's empty after this
+rm -rf apps/web/app/api
