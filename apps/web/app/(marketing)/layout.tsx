@@ -20,10 +20,9 @@ export default function MarketingLayout({
               <Image
                 src="/logo.png"
                 alt="MiCitaExtranjería"
-                width={180}
-                height={50}
-                className="object-contain"
-                style={{ height: '50px', width: 'auto', maxWidth: '180px' }}
+                width={120}
+                height={40}
+                className="h-[30px] w-auto object-contain md:h-[40px]"
                 priority
               />
             </a>
@@ -69,7 +68,7 @@ export default function MarketingLayout({
             </div>
 
             {/* Right: Clock and CTA */}
-            <div className="flex items-center gap-4 flex-shrink-0">
+            <div className="flex items-center gap-3 flex-shrink-0">
               <div className="hidden md:block">
                 <MadridClock />
               </div>
