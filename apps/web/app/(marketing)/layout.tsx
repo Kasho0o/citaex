@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
-import { AnimatedFlag } from "@/components/AnimatedFlag";
+import Image from "next/image";
 import { MadridClock } from "@/components/MadridClock";
+import { FloatingWhatsAppButton } from "@/components/floating-whatsapp-button";
+import { CookieConsent } from "@/components/cookie-consent";
 
 export default function MarketingLayout({
   children,
@@ -12,57 +14,67 @@ export default function MarketingLayout({
       {/* Navigation */}
       <nav className="sticky top-0 z-40 border-b border-[#004A8F]/20 bg-white shadow-sm">
         <div className="container mx-auto px-4">
-          <div className="flex h-20 items-center justify-between">
-            {/* Left: Logo and Brand */}
-            <div className="flex items-center gap-3">
-              <a href="/" className="flex items-center gap-3 hover:opacity-80">
-                <AnimatedFlag />
-                <span className="text-2xl font-bold text-[#004A8F]">
-                  MiCitaExtranjería
-                </span>
-              </a>
-            </div>
+          <div className="flex h-16 items-center justify-between gap-4">
+            {/* Left: Logo */}
+            <a href="/" className="flex items-center gap-2 hover:opacity-80 flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="MiCitaExtranjería"
+                width={180}
+                height={50}
+                className="h-12 w-auto max-w-[180px] object-contain"
+                priority
+              />
+            </a>
 
             {/* Center: Navigation Links */}
-            <div className="hidden gap-8 lg:flex">
+            <div className="hidden gap-6 lg:flex flex-1 justify-center">
               <a
                 href="/"
-                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E]"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
               >
                 Inicio
               </a>
               <a
                 href="/servicios"
-                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E]"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
               >
                 Servicios
               </a>
               <a
-                href="/precios"
-                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E]"
+                href="/formularios"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
               >
-                Precios
+                Formularios
               </a>
               <a
                 href="/guias"
-                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E]"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
               >
                 Guías
               </a>
               <a
+                href="/blog"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
+              >
+                Blog
+              </a>
+              <a
                 href="/contacto"
-                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E]"
+                className="text-sm font-medium text-[#2C3E50] transition-colors hover:text-[#C60B1E] whitespace-nowrap"
               >
                 Contacto
               </a>
             </div>
 
             {/* Right: Clock and CTA */}
-            <div className="flex items-center gap-6">
-              <MadridClock />
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="hidden md:block">
+                <MadridClock />
+              </div>
               <a
                 href="/solicitar-cita"
-                className="rounded-lg bg-[#C60B1E] px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#A00919] hover:shadow-lg"
+                className="rounded-lg bg-[#C60B1E] px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#A00919] hover:shadow-lg whitespace-nowrap"
               >
                 SOLICITAR CITA
               </a>
@@ -73,6 +85,12 @@ export default function MarketingLayout({
 
       {/* Main content */}
       <main className="flex-1">{children}</main>
+
+      {/* Floating WhatsApp Button */}
+      <FloatingWhatsAppButton />
+
+      {/* Cookie Consent */}
+      <CookieConsent />
 
       {/* Footer */}
       <footer className="border-t border-[#004A8F]/20 bg-[#004A8F] py-12 text-white">
@@ -165,8 +183,8 @@ export default function MarketingLayout({
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
-                  <a href="tel:+34663939048" className="hover:text-white">
-                    +34 663 93 90 48
+                  <a href="https://wa.me/923221430630" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                    WhatsApp: +92 322 1430630
                   </a>
                 </li>
                 <li className="flex items-start gap-2">
