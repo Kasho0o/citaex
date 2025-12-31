@@ -1,4 +1,1 @@
-import { auth } from "@/lib/auth";
-import { toNextJsHandler } from "better-auth/next-js";
-
-export const { GET, POST } = toNextJsHandler(auth);
+BETTER_AUTH_SECRET=citaex-secret-key-2025-very-long-random-string-here-32chars-minimum-length-required
