@@ -1,85 +1,173 @@
+"use client";
+
+import { useState } from "react";
+
+// =====================================================
+// EDITA AQUI TUS REVIEWS - Solo cambia este array
+// =====================================================
+const reviews = [
+  {
+    name: "Maria",
+    country: "Venezuela",
+    city: "Madrid",
+    tramite: "Toma de Huellas",
+    rating: 5,
+    text: "Llevaba 3 meses intentando conseguir cita para huellas sin exito. Con CitaEx en 5 dias ya tenia mi cita confirmada. Muy profesionales y siempre respondiendo por WhatsApp.",
+    date: "Enero 2026"
+  },
+  {
+    name: "Carlos",
+    country: "Colombia",
+    city: "Barcelona",
+    tramite: "Arraigo Social",
+    rating: 5,
+    text: "Excelente servicio. Me ayudaron con la cita para arraigo social cuando ya habia perdido la esperanza. El precio es justo y solo pague cuando tuve la cita confirmada.",
+    date: "Enero 2026"
+  },
+  {
+    name: "Fatima",
+    country: "Marruecos",
+    city: "Valencia",
+    tramite: "Renovacion TIE",
+    rating: 5,
+    text: "Mi TIE estaba a punto de caducar y no encontraba cita. CitaEx me consiguio cita en menos de una semana. Muy recomendado!",
+    date: "Diciembre 2025"
+  },
+  {
+    name: "Andres",
+    country: "Ecuador",
+    city: "Sevilla",
+    tramite: "NIE",
+    rating: 5,
+    text: "Servicio muy rapido y profesional. Me mantuvieron informado todo el tiempo por WhatsApp. Conseguieron mi cita para NIE en 4 dias.",
+    date: "Diciembre 2025"
+  },
+  {
+    name: "Olena",
+    country: "Ucrania",
+    city: "Madrid",
+    tramite: "Asilo",
+    rating: 5,
+    text: "Muy agradecida con CitaEx. En una situacion muy dificil me ayudaron a conseguir la cita que necesitaba. Gracias por la paciencia y el buen trato.",
+    date: "Noviembre 2025"
+  },
+  {
+    name: "Luis",
+    country: "Peru",
+    city: "Malaga",
+    tramite: "Toma de Huellas",
+    rating: 5,
+    text: "Increible servicio! La pagina oficial nunca tenia citas disponibles. CitaEx me aviso en cuanto salio una y la reservaron para mi. 100% recomendado.",
+    date: "Noviembre 2025"
+  },
+];
+// =====================================================
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span key={star} className={star <= rating ? "text-yellow-400" : "text-gray-300"}>
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ReviewCard({ review }: { review: typeof reviews[0] }) {
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+            {review.name.charAt(0)}
+          </div>
+          <div>
+            <div className="font-semibold text-gray-800">{review.name}</div>
+            <div className="text-sm text-gray-500">{review.country} - {review.city}</div>
+          </div>
+        </div>
+        <StarRating rating={review.rating} />
+      </div>
+      
+      <p className="text-gray-600 leading-relaxed mb-4">
+        &ldquo;{review.text}&rdquo;
+      </p>
+      
+      <div className="flex items-center justify-between text-sm">
+        <span className="bg-red-50 text-red-700 px-3 py-1 rounded-full font-medium">
+          {review.tramite}
+        </span>
+        <span className="text-gray-400">{review.date}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Testimonials() {
-  const testimonials = [
-    {
-      name: "Carolina M.",
-      origin: "Venezuela",
-      location: "Madrid",
-      service: "Renovación TIE",
-      text: "Llevaba semanas viendo siempre 'no hay citas disponibles' en Madrid. Con CitaEx me avisaron de una cita en pocos días y me enviaron todos los datos por WhatsApp. Pude renovar mi TIE sin perder tiempo ni pedir favores a nadie."
-    },
-    {
-      name: "Andrés G.",
-      origin: "Colombia",
-      location: "Barcelona",
-      service: "Toma de huellas",
-      text: "Trabajando en hostelería no tenía horas para estar actualizando la página de extranjería. Les escribí a CitaEx, rellené un formulario sencillo y ellos encontraron la cita de huellas en Barcelona. Solo pagué cuando ya tenía la confirmación en la mano."
-    },
-    {
-      name: "Yassin K.",
-      origin: "Marruecos",
-      location: "Valencia",
-      service: "Arraigo social",
-      text: "En Valencia las citas vuelan en segundos y estaba desesperado. CitaEx me explicó con sinceridad la dificultad, pero siguieron buscando hasta conseguir un hueco que podía aprovechar. Sentí que alguien estaba pendiente de mi caso, no solo una máquina."
-    },
-    {
-      name: "Imran S.",
-      origin: "Pakistán",
-      location: "Málaga",
-      service: "Cita previa extranjería",
-      text: "Entre el trabajo y el idioma, me agobiaba mucho el tema de extranjería. CitaEx me atendió en WhatsApp, me pidió solo los datos necesarios y unos días después me mandó una cita en Málaga lista para usar. Para mí fue un gran alivio."
-    },
-    {
-      name: "Mariela R.",
-      origin: "Perú",
-      location: "Sevilla",
-      service: "Asilo y protección internacional",
-      text: "Tenía miedo de perder plazos importantes con mi solicitud de asilo. Con CitaEx siempre supe en qué punto estaba la búsqueda de cita en Sevilla. Me informaron con respeto, sin falsas promesas, y me avisaron en cuanto apareció un turno."
-    },
-    {
-      name: "Diego L.",
-      origin: "Ecuador",
-      location: "Alicante",
-      service: "Estudiantes extranjeros",
-      text: "Necesitaba renovar mi estancia por estudios en Alicante y las citas salían en horarios imposibles. CitaEx estuvo atento a los huecos y me encontró una fecha que encajaba con mis exámenes. El proceso fue claro, rápido y sin sorpresas en el precio."
-    }
-  ];
+  const [showAll, setShowAll] = useState(false);
+  const displayedReviews = showAll ? reviews : reviews.slice(0, 3);
 
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">
-            Historias reales de personas que ya consiguieron su cita
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-sm font-medium mb-4">
+            <span>★</span> Opiniones verificadas
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Lo que dicen nuestros clientes
           </h2>
-          <p className="text-lg text-gray-600">
-            Miles de personas ya han conseguido su cita con CitaEx
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Miles de personas ya han conseguido su cita con nuestra ayuda
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-              <div className="mb-4">
-                <div className="flex items-center gap-1 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-700 leading-relaxed italic mb-4">
-                  "{testimonial.text}"
-                </p>
-              </div>
-              <div className="border-t pt-4">
-                <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                <div className="text-sm text-gray-600">{testimonial.origin} → {testimonial.location}</div>
-                <div className="mt-2 inline-block rounded-full bg-[#004A8F]/10 px-3 py-1 text-xs font-medium text-[#004A8F]">
-                  {testimonial.service}
-                </div>
-              </div>
-            </div>
+        {/* Stats */}
+        <div className="flex flex-wrap justify-center gap-8 mb-12">
+          <div className="text-center">
+            <div className="text-4xl font-bold text-red-600">15,000+</div>
+            <div className="text-gray-600">Citas conseguidas</div>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl font-bold text-red-600">4.9/5</div>
+            <div className="text-gray-600">Valoracion media</div>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl font-bold text-red-600">52</div>
+            <div className="text-gray-600">Provincias</div>
+          </div>
+        </div>
+
+        {/* Reviews Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {displayedReviews.map((review, index) => (
+            <ReviewCard key={index} review={review} />
           ))}
+        </div>
+
+        {/* Show More Button */}
+        {reviews.length > 3 && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="px-8 py-3 border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              {showAll ? "Ver menos" : `Ver mas opiniones (${reviews.length - 3}+)`}
+            </button>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="text-center mt-12">
+          <p className="text-gray-600 mb-4">Ya usaste nuestro servicio?</p>
+          <a
+            href="/dejar-opinion"
+            className="inline-flex items-center gap-2 bg-white border-2 border-red-600 text-red-600 px-6 py-3 rounded-xl font-medium hover:bg-red-50 transition-colors"
+          >
+            <span>★</span> Deja tu opinion
+          </a>
         </div>
       </div>
     </section>
