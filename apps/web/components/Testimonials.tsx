@@ -1,67 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
-// =====================================================
-// EDITA AQUI TUS REVIEWS - Solo cambia este array
-// =====================================================
-const reviews = [
-  {
-    name: "Maria",
-    country: "Venezuela",
-    city: "Madrid",
-    tramite: "Toma de Huellas",
-    rating: 5,
-    text: "Llevaba 3 meses intentando conseguir cita para huellas sin exito. Con CitaEx en 5 dias ya tenia mi cita confirmada. Muy profesionales y siempre respondiendo por WhatsApp.",
-    date: "Enero 2026"
-  },
-  {
-    name: "Carlos",
-    country: "Colombia",
-    city: "Barcelona",
-    tramite: "Arraigo Social",
-    rating: 5,
-    text: "Excelente servicio. Me ayudaron con la cita para arraigo social cuando ya habia perdido la esperanza. El precio es justo y solo pague cuando tuve la cita confirmada.",
-    date: "Enero 2026"
-  },
-  {
-    name: "Fatima",
-    country: "Marruecos",
-    city: "Valencia",
-    tramite: "Renovacion TIE",
-    rating: 5,
-    text: "Mi TIE estaba a punto de caducar y no encontraba cita. CitaEx me consiguio cita en menos de una semana. Muy recomendado!",
-    date: "Diciembre 2025"
-  },
-  {
-    name: "Andres",
-    country: "Ecuador",
-    city: "Sevilla",
-    tramite: "NIE",
-    rating: 5,
-    text: "Servicio muy rapido y profesional. Me mantuvieron informado todo el tiempo por WhatsApp. Conseguieron mi cita para NIE en 4 dias.",
-    date: "Diciembre 2025"
-  },
-  {
-    name: "Olena",
-    country: "Ucrania",
-    city: "Madrid",
-    tramite: "Asilo",
-    rating: 5,
-    text: "Muy agradecida con CitaEx. En una situacion muy dificil me ayudaron a conseguir la cita que necesitaba. Gracias por la paciencia y el buen trato.",
-    date: "Noviembre 2025"
-  },
-  {
-    name: "Luis",
-    country: "Peru",
-    city: "Malaga",
-    tramite: "Toma de Huellas",
-    rating: 5,
-    text: "Increible servicio! La pagina oficial nunca tenia citas disponibles. CitaEx me aviso en cuanto salio una y la reservaron para mi. 100% recomendado.",
-    date: "Noviembre 2025"
-  },
-];
-// =====================================================
+interface Review {
+  id: number;
+  name: string;
+  country: string;
+  city: string;
+  tramite: string;
+  rating: number;
+  review: string;
+  created_at: string;
+}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -75,13 +26,16 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function ReviewCard({ review }: { review: typeof reviews[0] }) {
+function ReviewCard({ review }: { review: Review }) {
+  const date = new Date(review.created_at);
+  const dateStr = date.toLocaleDateString("es-ES", { month: "long", year: "numeric" });
+  
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {review.name.charAt(0)}
+            {review.name.charAt(0).toUpperCase()}
           </div>
           <div>
             <div className="font-semibold text-gray-800">{review.name}</div>
@@ -92,22 +46,46 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
       </div>
       
       <p className="text-gray-600 leading-relaxed mb-4">
-        &ldquo;{review.text}&rdquo;
+        &ldquo;{review.review}&rdquo;
       </p>
       
       <div className="flex items-center justify-between text-sm">
         <span className="bg-red-50 text-red-700 px-3 py-1 rounded-full font-medium">
           {review.tramite}
         </span>
-        <span className="text-gray-400">{review.date}</span>
+        <span className="text-gray-400 capitalize">{dateStr}</span>
       </div>
     </div>
   );
 }
 
 export default function Testimonials() {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
-  const displayedReviews = showAll ? reviews : reviews.slice(0, 3);
+
+  useEffect(() => {
+    async function fetchReviews() {
+      const { data, error } = await supabase
+        .from("reviews")
+        .select("*")
+        .eq("approved", true)
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      if (!error && data) {
+        setReviews(data);
+      }
+      setLoading(false);
+    }
+    fetchReviews();
+  }, []);
+
+  const displayedReviews = showAll ? reviews : reviews.slice(0, 6);
+  const totalReviews = reviews.length;
+  const avgRating = reviews.length > 0 
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : "5.0";
 
   return (
     <section className="py-20 bg-gray-50">
@@ -131,7 +109,7 @@ export default function Testimonials() {
             <div className="text-gray-600">Citas conseguidas</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-red-600">4.9/5</div>
+            <div className="text-4xl font-bold text-red-600">{avgRating}/5</div>
             <div className="text-gray-600">Valoracion media</div>
           </div>
           <div className="text-center">
@@ -141,21 +119,36 @@ export default function Testimonials() {
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {displayedReviews.map((review, index) => (
-            <ReviewCard key={index} review={review} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="w-12 h-12 border-4 border-red-200 border-t-red-600 rounded-full animate-spin mx-auto"></div>
+            <p className="mt-4 text-gray-500">Cargando opiniones...</p>
+          </div>
+        ) : reviews.length > 0 ? (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {displayedReviews.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
 
-        {/* Show More Button */}
-        {reviews.length > 3 && (
-          <div className="text-center mt-8">
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="px-8 py-3 border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              {showAll ? "Ver menos" : `Ver mas opiniones (${reviews.length - 3}+)`}
-            </button>
+            {totalReviews > 6 && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="px-8 py-3 border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  {showAll ? "Ver menos" : `Ver mas opiniones (${totalReviews - 6}+)`}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center py-12 bg-white rounded-2xl max-w-md mx-auto">
+            <p className="text-gray-500 mb-4">Se el primero en dejar una opinion</p>
+            <a href="/dejar-opinion" className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700">
+              Dejar opinion
+            </a>
           </div>
         )}
 
