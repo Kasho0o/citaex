@@ -97,11 +97,22 @@ export default function DocumentChecker() {
     setError("");
 
     try {
-      const response = await fetch("/api/verificar-documentos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ procedure, province, documents, userInfo }),
-      });
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.citaex.com';
+
+const response = await fetch(`${apiUrl}/api/verificar-documentos`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    // Add Authorization or other headers if your backend requires them
+  },
+  body: JSON.stringify({
+    procedure,
+    province,
+    documents,
+    userInfo,
+    // ... probably more fields here
+  }),
+});
 
       if (!response.ok) {
         throw new Error("Error al analizar documentos");
